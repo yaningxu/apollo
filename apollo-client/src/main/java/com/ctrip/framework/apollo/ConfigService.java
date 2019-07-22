@@ -102,6 +102,14 @@ public class ConfigService {
     return s_instance.getManager().getConfigFile(namespace, configFileFormat);
   }
 
+  /**
+   * get all namespaces in order
+   * @return
+   */
+  public static List<Config> getConfigs(){
+    return configs;
+  }
+
   static void setConfig(Config config) {
     setConfig(ConfigConsts.NAMESPACE_APPLICATION, config);
   }
