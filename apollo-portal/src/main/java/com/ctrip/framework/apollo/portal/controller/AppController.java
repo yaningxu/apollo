@@ -97,21 +97,6 @@ public class AppController {
           @RequestParam(value = "key", required = false) String key,
           Pageable pageable) {
     List<SearchItemBO> list = appService.findItems(appid, key);
-   // List<SearchItemBO> list = new ArrayList<>();
-//    if(!com.ctrip.framework.apollo.core.utils.StringUtils.isBlank(key)){
-//      SearchItemBO searchItemBO1 = new SearchItemBO();
-//      searchItemBO1.setAppId("common");
-//      searchItemBO1.setNamespaceName("KUYIN.common");
-//      searchItemBO1.setKey("common.db.url.kuyin");
-//
-//      list.add(searchItemBO1);
-//
-//      SearchItemBO searchItemBO2 = new SearchItemBO();
-//      searchItemBO2.setAppId("kuyin-interfaces");
-//      searchItemBO2.setNamespaceName("interface-h5-third");
-//      searchItemBO2.setKey("album.ringnum");
-//      list.add(searchItemBO2);
-//    }
 
     return  new PageDTO<>(list, pageable, 2);
   }
