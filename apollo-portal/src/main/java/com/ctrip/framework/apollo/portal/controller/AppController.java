@@ -98,7 +98,7 @@ public class AppController {
           Pageable pageable) {
     List<SearchItemBO> list = appService.findItems(appid, key);
 
-    return  new PageDTO<>(list, pageable, 2);
+    return  new PageDTO<>(list, pageable, list.size());
   }
 
   @GetMapping("/by-owner")
