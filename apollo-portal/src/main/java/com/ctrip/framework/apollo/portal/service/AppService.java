@@ -6,15 +6,19 @@ import com.ctrip.framework.apollo.common.entity.App;
 import com.ctrip.framework.apollo.common.exception.BadRequestException;
 import com.ctrip.framework.apollo.common.utils.BeanUtils;
 import com.ctrip.framework.apollo.core.enums.Env;
+import com.ctrip.framework.apollo.core.utils.StringUtils;
 import com.ctrip.framework.apollo.portal.api.AdminServiceAPI;
 import com.ctrip.framework.apollo.portal.constant.TracerEventType;
+import com.ctrip.framework.apollo.portal.entity.bo.SearchItemBO;
 import com.ctrip.framework.apollo.portal.entity.bo.UserInfo;
 import com.ctrip.framework.apollo.portal.entity.vo.EnvClusterInfo;
 import com.ctrip.framework.apollo.portal.repository.AppRepository;
 import com.ctrip.framework.apollo.portal.spi.UserInfoHolder;
 import com.ctrip.framework.apollo.portal.spi.UserService;
+import com.ctrip.framework.apollo.portal.util.EntityUtils;
 import com.ctrip.framework.apollo.tracer.Tracer;
 import com.google.common.collect.Lists;
+import java.util.ArrayList;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -85,6 +89,22 @@ public class AppService {
 
   public List<App> findByAppIds(Set<String> appIds, Pageable pageable) {
     return appRepository.findByAppIdIn(appIds, pageable);
+  }
+
+  public List<SearchItemBO> findItems(String appid, String key){
+
+    if(!StringUtils.isBlank(key)){
+      key = key.trim();
+      List<Object[]> result = null;
+      if(StringUtils.isBlank(appid)){
+        result = appRepository.findItemsByKey("%" + key +"%");
+      }else {
+        result = appRepository.findItemsByAppIdKey(appid, "%" + key +"%");
+      }
+      return EntityUtils.castEntity(result, SearchItemBO.class, new SearchItemBO());
+
+    }
+    return new ArrayList<>();
   }
 
   public List<App> findByOwnerName(String ownerName, Pageable page) {

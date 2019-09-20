@@ -977,14 +977,14 @@
 					<headerLocation>LICENSE-2.0.txt</headerLocation>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.6</version>
-				<configuration>
-					<aggregate>true</aggregate>
-				</configuration>
-			</plugin>
+			<!--<plugin>-->
+				<!--<groupId>org.apache.maven.plugins</groupId>-->
+				<!--<artifactId>maven-pmd-plugin</artifactId>-->
+				<!--<version>3.6</version>-->
+				<!--<configuration>-->
+					<!--<aggregate>true</aggregate>-->
+				<!--</configuration>-->
+			<!--</plugin>-->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
@@ -992,15 +992,68 @@
 			</plugin>
 		</plugins>
 	</reporting>
+	<!--<distributionManagement>-->
+		<!--<repository>-->
+			<!--<id>releases</id>-->
+			<!--<url>${releases.repo}</url>-->
+		<!--</repository>-->
+		<!--<snapshotRepository>-->
+			<!--<id>snapshots</id>-->
+			<!--<url>${snapshots.repo}</url>-->
+		<!--</snapshotRepository>-->
+	<!--</distributionManagement>-->
 	<distributionManagement>
 		<repository>
-			<id>releases</id>
-			<url>${releases.repo}</url>
+			<id>nexus-releases</id>
+			<name>Nexus Release Repository</name>
+			<url>http://maven.iflytek.com:8081/nexus/content/repositories/CTI-release/</url>
 		</repository>
 		<snapshotRepository>
-			<id>snapshots</id>
-			<url>${snapshots.repo}</url>
+			<id>nexus-snapshots</id>
+			<name>Nexus Snapshot Repository</name>
+			<url>http://maven.iflytek.com:8081/nexus/content/repositories/CTI-snapshot/</url>
 		</snapshotRepository>
 	</distributionManagement>
+	<repositories>
+		<repository>
+			<id>iflytek-nexus</id>
+			<name>KuYin Central Repo</name>
+			<url>http://maven.iflytek.com:8081/nexus/content/groups/public/</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>iflytek-nexus</id>
+			<name>KuYin Central Repo</name>
+			<url>http://maven.iflytek.com:8081/nexus/content/groups/public/</url>
+		</pluginRepository>
+	</pluginRepositories>
+	<!--<repositories>&lt;!&ndash; 代码库 &ndash;&gt;-->
+		<!--<repository>-->
+			<!--<id>maven-ali</id>-->
+			<!--<url>http://maven.aliyun.com/nexus/content/groups/public/</url>-->
+			<!--<releases>-->
+				<!--<enabled>true</enabled>-->
+			<!--</releases>-->
+			<!--<snapshots>-->
+				<!--<enabled>true</enabled>-->
+				<!--<updatePolicy>always</updatePolicy>-->
+				<!--<checksumPolicy>fail</checksumPolicy>-->
+			<!--</snapshots>-->
+		<!--</repository>-->
+	<!--</repositories>-->
+	<!--<pluginRepositories>-->
+		<!--<pluginRepository>-->
+			<!--<id>nexus-plugin</id>-->
+			<!--<name>nexus plugin respository</name>-->
+			<!--<url>http://maven.aliyun.com/nexus/content/groups/public/</url>-->
+			<!--<releases>-->
+				<!--<enabled>true</enabled>-->
+			<!--</releases>-->
+			<!--<snapshots>-->
+				<!--<enabled>true</enabled>-->
+			<!--</snapshots>-->
+		<!--</pluginRepository>-->
+	<!--</pluginRepositories>-->
 </project>
 

@@ -1,6 +1,6 @@
 directive_module.directive('apollonspanel', directive);
 
-function directive($window, toastr, AppUtil, EventManager, PermissionService, NamespaceLockService,
+function directive($location, $window, toastr, AppUtil, EventManager, PermissionService, NamespaceLockService,
                    UserService, CommitService, ReleaseService, InstanceService, NamespaceBranchService, ConfigService) {
     return {
         restrict: 'E',
@@ -80,8 +80,7 @@ function directive($window, toastr, AppUtil, EventManager, PermissionService, Na
             });
 
             preInit(scope.namespace);
-
-            if (!scope.lazyLoad || scope.namespace.initialized) {
+            if (!scope.namespace.initialized) {
                 init();
             }
 
@@ -906,7 +905,25 @@ function directive($window, toastr, AppUtil, EventManager, PermissionService, Na
                 scope.namespace.show = true;
             }, 70);
 
-
+            //定位查询的配置
+            var flag = false;
+            var params = AppUtil.parseParams($location.$$url);
+            var ns = params.namespacename;
+            if(ns != null && ns != '' && scope.namespace.viewName == ns){
+              setInterval(function () {
+                if(!flag){
+                  var selector = document.getElementById(ns);
+                  if(selector != null){
+                    selector.scrollIntoView();
+                    toggleItemSearchInput(scope.namespace)
+                    scope.namespace.searchKey=params.key;
+                    searchItems(scope.namespace)
+                    scope.showNamespaceBody = true
+                    flag = true;
+                  }
+                }
+              },1000);//轮询执行，1000ms一次
+            }
         }
     }
 }

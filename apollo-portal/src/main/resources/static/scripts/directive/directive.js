@@ -1,6 +1,6 @@
 /** navbar */
 directive_module.directive('apollonav',
-                           function ($compile, $window, toastr, AppUtil, AppService, EnvService,
+                           function ($compile, $window, $location, toastr, AppUtil, AppService, EnvService,
                            UserService, CommonService, PermissionService) {
                                return {
                                    restrict: 'E',
@@ -35,6 +35,59 @@ directive_module.directive('apollonav',
                                                            result.push({
                                                                id: app.appId,
                                                                text: app.appId + ' / ' + app.name
+                                                           })
+                                                       });
+                                                       return {
+                                                           results: result,
+                                                           pagination: {
+                                                               more: hasMore
+                                                           }
+                                                       };
+                                                   } else {
+                                                       return {
+                                                           results: [],
+                                                           pagination: {
+                                                               more: false
+                                                           }
+                                                       };
+                                                   }
+
+                                               }
+                                           }
+                                       });
+
+                                       $('#key-search-list').on('select2:select', function () {
+                                           var selected = $('#key-search-list').select2('data');
+                                           if (selected && selected.length) {
+                                               jumpToConfigPage(selected[0].id)
+                                           }
+                                       });
+
+                                       var params = AppUtil.parseParams($location.$$url,true);
+                                       var appid = params.appid;
+                                       $('#key-search-list').select2({
+                                           placeholder: '搜索配置(Key)',
+                                           ajax: {
+                                               url: "/apps/search/item",
+                                               dataType: 'json',
+                                               delay: 400,
+                                               data: function (params) {
+                                                   return {
+                                                       key: params.term || '',
+                                                       appid:appid,
+                                                       page: params.page ? params.page - 1 : 0,
+                                                       size: 20
+                                                   };
+                                               },
+                                               processResults: function (data) {
+                                                   if (data && data.content) {
+                                                       var hasMore = data.content.length
+                                                           === data.size;
+                                                       var result = [];
+                                                       data.content.forEach(function (item) {
+                                                           result.push({
+                                                               id: item.appId + "&namespacename=" + item.namespaceName + "&key=" + item.key,
+                                                               text: item.appId + '/' + item.namespaceName + ':' + item.key
                                                            })
                                                        });
                                                        return {

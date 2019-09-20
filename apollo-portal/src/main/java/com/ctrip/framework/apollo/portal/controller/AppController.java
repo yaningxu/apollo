@@ -9,6 +9,7 @@ import com.ctrip.framework.apollo.common.http.RichResponseEntity;
 import com.ctrip.framework.apollo.core.ConfigConsts;
 import com.ctrip.framework.apollo.core.enums.Env;
 import com.ctrip.framework.apollo.portal.component.PortalSettings;
+import com.ctrip.framework.apollo.portal.entity.bo.SearchItemBO;
 import com.ctrip.framework.apollo.portal.entity.model.AppModel;
 import com.ctrip.framework.apollo.portal.entity.po.Role;
 import com.ctrip.framework.apollo.portal.entity.vo.EnvClusterInfo;
@@ -21,6 +22,7 @@ import com.ctrip.framework.apollo.portal.service.RolePermissionService;
 import com.ctrip.framework.apollo.portal.spi.UserInfoHolder;
 import com.ctrip.framework.apollo.portal.util.RoleUtils;
 import com.google.common.collect.Sets;
+import java.util.ArrayList;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -88,6 +90,30 @@ public class AppController {
     } else {
       return appService.searchByAppIdOrAppName(query, pageable);
     }
+  }
+
+  @GetMapping("/search/item")
+  public PageDTO<SearchItemBO> searchByKey(@RequestParam(value = "appid", required = false) String appid,
+          @RequestParam(value = "key", required = false) String key,
+          Pageable pageable) {
+    List<SearchItemBO> list = appService.findItems(appid, key);
+   // List<SearchItemBO> list = new ArrayList<>();
+//    if(!com.ctrip.framework.apollo.core.utils.StringUtils.isBlank(key)){
+//      SearchItemBO searchItemBO1 = new SearchItemBO();
+//      searchItemBO1.setAppId("common");
+//      searchItemBO1.setNamespaceName("KUYIN.common");
+//      searchItemBO1.setKey("common.db.url.kuyin");
+//
+//      list.add(searchItemBO1);
+//
+//      SearchItemBO searchItemBO2 = new SearchItemBO();
+//      searchItemBO2.setAppId("kuyin-interfaces");
+//      searchItemBO2.setNamespaceName("interface-h5-third");
+//      searchItemBO2.setKey("album.ringnum");
+//      list.add(searchItemBO2);
+//    }
+
+    return  new PageDTO<>(list, pageable, 2);
   }
 
   @GetMapping("/by-owner")
