@@ -183,11 +183,4 @@ public class ItemService {
     return bizConfig.itemValueLengthLimit();
   }
 
-  public List<Object> findItems(String appId, String key) {
-    if(StringUtils.isBlank(appId)){
-      return itemRepository.findItemsByKey(key);
-    }
-    return itemRepository.findItemsByAppIdKey(appId, key);
-  }
-
 }
