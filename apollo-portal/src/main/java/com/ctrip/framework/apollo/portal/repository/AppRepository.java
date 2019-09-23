@@ -25,11 +25,11 @@ public interface AppRepository extends PagingAndSortingRepository<App, Long> {
 
   Page<App> findByAppIdContainingOrNameContaining(String appId, String name, Pageable pageable);
 
-  @Query(value = "select B.AppId as appId,B.NamespaceName as namespaceName,A.Key as 'key' from ApolloConfigDB.Item A inner join ApolloConfigDB.Namespace B on A.Key like ?1 and A.NamespaceId=B.Id",
+  @Query(value = "select B.AppId as appId,B.NamespaceName as namespaceName,A.Key as 'key' from ApolloConfigDB.Item A inner join ApolloConfigDB.Namespace B on A.IsDeleted = 0 and A.Key like ?1 and A.NamespaceId=B.Id",
            nativeQuery = true)
   List<Object[]> findItemsByKey(String key);
 
-  @Query(value = "select B.AppId as appId,B.NamespaceName as namespaceName,A.Key as 'key' from ApolloConfigDB.Item A inner join ApolloConfigDB.Namespace B on B.AppId = ?1 and A.Key like ?2 and A.NamespaceId=B.Id",
+  @Query(value = "select B.AppId as appId,B.NamespaceName as namespaceName,A.Key as 'key' from ApolloConfigDB.Item A inner join ApolloConfigDB.Namespace B on A.IsDeleted = 0 and B.AppId = ?1 and A.Key like ?2 and A.NamespaceId=B.Id",
            nativeQuery = true)
   List<Object[]> findItemsByAppIdKey(String appid, String key);
 

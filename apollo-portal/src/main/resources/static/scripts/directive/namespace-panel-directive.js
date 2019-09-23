@@ -80,7 +80,8 @@ function directive($location, $window, toastr, AppUtil, EventManager, Permission
             });
 
             preInit(scope.namespace);
-            if (!scope.namespace.initialized) {
+            var params = AppUtil.parseParams($location.$$url);
+            if ((params.key != null && params.key != '') || !scope.lazyLoad || scope.namespace.initialized) {
                 init();
             }
 
@@ -907,7 +908,6 @@ function directive($location, $window, toastr, AppUtil, EventManager, Permission
 
             //定位查询的配置
             var flag = false;
-            var params = AppUtil.parseParams($location.$$url);
             var ns = params.namespacename;
             if(ns != null && ns != '' && scope.namespace.viewName == ns){
               setInterval(function () {
