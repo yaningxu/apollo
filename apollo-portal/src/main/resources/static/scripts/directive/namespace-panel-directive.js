@@ -914,11 +914,12 @@ function directive($location, $window, toastr, AppUtil, EventManager, Permission
                 if(!flag){
                   var selector = document.getElementById(ns);
                   if(selector != null){
-                    selector.scrollIntoView();
+
                     toggleItemSearchInput(scope.namespace)
                     scope.namespace.searchKey=params.key;
-                    searchItems(scope.namespace)
-                    scope.showNamespaceBody = true
+                    searchItems(scope.namespace);
+                    scope.showNamespaceBody = true;
+                    selector.scrollIntoView();
                     flag = true;
                   }
                 }
